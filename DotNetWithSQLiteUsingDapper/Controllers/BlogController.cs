@@ -29,5 +29,13 @@ namespace DotNetWithSQLiteUsingDapper.Controllers
             model = await _blogService.Create(requestModel);
             return model;
         }
+
+        [HttpPut("{id}")]
+        public async Task<ResponseModel> Update(int id, BlogUpdateModel requestModel)
+        {
+            ResponseModel model = new ResponseModel();
+            model = await _blogService.Update(id, requestModel);
+            return model;
+        }
     }
 }
