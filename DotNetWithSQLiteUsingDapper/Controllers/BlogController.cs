@@ -37,5 +37,12 @@ namespace DotNetWithSQLiteUsingDapper.Controllers
             model = await _blogService.Update(id, requestModel);
             return model;
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _blogService.Delete(id);
+            return Ok(new { message = "Blog deleted" });
+        }
     }
 }
