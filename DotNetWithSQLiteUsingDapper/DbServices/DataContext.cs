@@ -14,10 +14,10 @@ namespace DotNetWithSQLiteUsingDapper.DbServices
         {
             _connection = new SqliteConnection(con);
         }
-        //public SqliteConnection CreateConnection()
-        //{
-        //    //return new SqliteConnection(_configuration.GetConnectionString("BlogDatabase"));
-        //}
+        public SqliteConnection CreateConnection()
+        {
+            return new SqliteConnection(_connection.ConnectionString);
+        }
 
         public async Task Init()
         {
@@ -26,18 +26,7 @@ namespace DotNetWithSQLiteUsingDapper.DbServices
 
             async Task _initUsers()
             {
-                var sql = """
-                CREATE TABLE IF NOT EXISTS 
-                Users (
-                    Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                    Title TEXT,
-                    FirstName TEXT,
-                    LastName TEXT,
-                    Email TEXT,
-                    Role INTEGER,
-                    PasswordHash TEXT
-                );
-            """;
+                var sql = BlogQuery.CreateBlogTable;
                 await _connection.ExecuteAsync(sql);
             }
         }
