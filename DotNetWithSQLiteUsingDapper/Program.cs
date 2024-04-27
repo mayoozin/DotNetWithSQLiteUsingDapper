@@ -1,5 +1,6 @@
 using DotNetWithSQLiteUsingDapper;
 using DotNetWithSQLiteUsingDapper.DbServices;
+using DotNetWithSQLiteUsingDapper.Services;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,16 +29,17 @@ builder.Services.AddScoped(n =>
     Directory.CreateDirectory(folderPath);
     //string filePath = Path.Combine(folderPath, builder.Configuration.GetSection("DbFileName").Value!);
     //string connectionString = $"Data Source={filePath};Version=3;";
-    string connectionString = "Data Source=Blog.db;Version=3;";
+    string connectionString = "Data Source=Blog.db;";
     return new DataContext(connectionString);
 });
 var app = builder.Build();
 
-//{
-//    using var scope = app.Services.CreateScope();
-//    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-//    await context.Init();
-//}
+// ensure database and tables exist
+{
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    await context.Init();
+}
 
 
 // Configure the HTTP request pipeline.
