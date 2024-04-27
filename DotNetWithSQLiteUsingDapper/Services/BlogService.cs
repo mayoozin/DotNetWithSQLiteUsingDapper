@@ -10,7 +10,7 @@ namespace DotNetWithSQLiteUsingDapper.Services
         Task<IEnumerable<BlogModel>> GetAll();
         //Task<BlogModel> GetById(int id);
         Task<ResponseModel> Create(BlogRequestModel model);
-        //Task Update(int id, UpdateRequest model);
+        Task<ResponseModel> Update(int id, BlogUpdateModel model);
         //Task Delete(int id);
     }
     public class BlogService : IBlogService
@@ -34,6 +34,15 @@ namespace DotNetWithSQLiteUsingDapper.Services
             var sql = BlogQuery.Insert;
             var res = await connection.ExecuteAsync(sql, reqModel);
             model.Message = res > 0 ? "Create Successful" : "Create Failed";
+            return model;
+        }
+        public async Task<ResponseModel> Update(int id, BlogUpdateModel reqModel)
+        {
+            ResponseModel model = new ResponseModel();
+            using var connection = _context.CreateConnection();
+            var sql = BlogQuery.Update;
+            var res = await connection.ExecuteAsync(sql, reqModel);
+            model.Message = res > 0 ? "Update Successful" : "Update Failed";
             return model;
         }
     }
